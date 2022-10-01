@@ -35,7 +35,11 @@ function PendingDoc (props) {
                     <li className="active">
                         <i className="material-icons md-24">event</i>
                             <strong>{props.dateTime}</strong>
-                    </li>						
+                    </li>
+                    <li className="active">
+                        <i className="material-icons md-24">traffic</i>
+                            <strong>{props.status}</strong>
+                    </li>
                 </ul>
             </div>
             <footer className="pricing-item-footer">

@@ -6,6 +6,7 @@ function Counter () {
 
     const [pendings, setPendings] = useState([])
     const [totalSub, setTotalSub] = useState([])
+    const [status, setStatus] = useState(["Cargando..."])
 
     useEffect(() => {
         console.log("Montando el componente");
@@ -13,17 +14,19 @@ function Counter () {
         .then(response => response.json())
         .then(data => {
             setPendings(data.documents);
-            console.log(pendings);
+            if(data.documents.length < 1){
+                setStatus('Sin documentos para reenviar')
+            }
         } )
         .catch(error => console.log(error))
+
+        
     }, []);
 
     useEffect(() => {
         console.log("Update Component");
     }, [pendings]);
-
-
-    
+  
 
 
      console.log(pendings);   
@@ -39,10 +42,18 @@ function Counter () {
     let sectionbgc = useRef(null)
     let cargando =  useRef(null)
 
+    useEffect(() => {
         if(pendings.length > 1){
             sectionbgc.current.style.display="block"
             cargando.current.style.display="none"
         }
+    
+    })    
+
+    // else{
+    //     cargando.current.innerText = 'Por fin, sin documentos'
+    // }
+        
 
     //spinner-border
     
@@ -51,7 +62,7 @@ function Counter () {
 
     return (  
         <>        
-        <h1 ref={cargando} style={{display:"block"}}>Cargando...</h1>
+        <h1 ref={cargando} style={{display:"block"}}>{status}</h1>
         <section ref={sectionbgc} style={{display:"none"}} className="section">            
         <div className="container">
             <div className="row spincrement-container">

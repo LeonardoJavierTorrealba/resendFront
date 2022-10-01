@@ -6,8 +6,15 @@ import {useState, useRef} from "react";
 
 function PendingSection () {
 
+    let sectionbgc = useRef(null)
+    let loading =  useRef(null)
+    let pResend =  useRef(null)
+    let resendAll = useRef(null)
+
+
     let [docPendings, setDocPendings] = useState([]);
     let [responseResend, setResponseResend] = useState([]);
+    let [status, setStatus] = useState(['Cargando...'])
 
 
         useEffect(() => {
@@ -15,7 +22,11 @@ function PendingSection () {
             // fetch('http://localhost:4600/api/getProcessFromProd01')
             .then(response => response.json())
             .then(data => {
-                setDocPendings(data.documents);                
+                setDocPendings(data.documents); 
+                console.log(data.documents);
+                if (data.documents < 1){
+                    setStatus('Sin documentos')
+                }
             } )
             .catch(error => console.log(error))
 
@@ -55,28 +66,24 @@ function PendingSection () {
         //Podría agregar al componente un fetch al resend y que muestre los resultados en la misma pantalla.
         //Ver cómo controlar los elementos de JSX con el useRef o lo que sea. 
 
-        let sectionbgc = useRef(null)
-        let loading =  useRef(null)
-        let pResend =  useRef(null)
+        
 
         if(docPendings.length > 1){
             sectionbgc.current.style.display="block"
-            loading.current.style.display="none"
+            resendAll.current.style.display="block"
+            loading.current.style.display="none"            
         }
 
         if (responseResend.length > 1){
             pResend.current.style.display="block"
-        }
-    
-
-        
+        }    
 
            
 
 
     return(
         <>        
-        <h1 ref={loading} style={{display:"block"}}>Cargando...</h1>
+        <h1 ref={loading} style={{display:"block"}}>{status}</h1>
         <section ref={sectionbgc} style={{display:"none"}} className="section section-bgc">
             <div className="container">
                 <div className="row items">
@@ -87,7 +94,7 @@ function PendingSection () {
                         </div>
                     </div>                                                                                                 
                             
-                        { docPendings.map(doc => <PendingDoc nombreSucursal={doc.nombreSucursal}  idSucursal={doc.idSucursal} idDocumento={doc.idDocumento} idSocio={doc.idSocio} numeroDoc={doc.numeroDoc} importeTotal={doc.importeTotal} dateTime={doc.dateTime} /> )
+                        { docPendings.map(doc => <PendingDoc nombreSucursal={doc.nombreSucursal}  idSucursal={doc.idSucursal} idDocumento={doc.idDocumento} idSocio={doc.idSocio} numeroDoc={doc.numeroDoc} importeTotal={doc.importeTotal} dateTime={doc.dateTime} status={"Pendiente"} /> )
                         }                           
                                 
                     </div>  
@@ -95,7 +102,7 @@ function PendingSection () {
         </section>
 
 
-        <section className="section">
+        <section ref={resendAll} style={{display:"none"}} className="section">
         <div className="container">
             <div className="row">
                 <div className="col-12">
