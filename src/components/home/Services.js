@@ -26,7 +26,7 @@ function Services (){
                         </Link>    
                     </div>
                     <div className="col-lg-6 col-md-3 col-12 item">
-                        <Link to="single-services.html" className="iitem item-style">
+                        <Link to="#" className="iitem item-style">
                             <div className="iitem-icon">
                                 <i className="material-icons material-icons-outlined md-48">receipt</i>
                             </div>

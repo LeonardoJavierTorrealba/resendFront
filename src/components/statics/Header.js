@@ -13,7 +13,7 @@ function Header(){
 <li><Link to="/">Home</Link></li>
 <li><Link to="/resendPage">Facturas Procesando</Link></li>
 <li><Link to="#">Facturas en Error</Link></li>
-<li><Link to="/wasa">Definiciones e Instructivos</Link></li>
+<li><Link to="#">Definiciones e Instructivos</Link></li>
 {/* <li><Link to="#">Tabs Accordions</Link></li> */}
 <li><Link to="#">Novedades</Link></li>
 <li><Link to="#">Contacto</Link></li>
@@ -50,7 +50,7 @@ function Header(){
             <li>
                 <a href="https://wa.me/5491167211569" target="_blank" className="formingtoTel">
                     <i className="material-icons md-18">whatsapp</i>
-                    <span>Whatsapp</span>
+                    <span>Whatsapp a Desarrollo</span>
                 </a>
             </li>
         </ul>{/* Ennd header top info */}
@@ -149,7 +149,7 @@ function Header(){
                         <li>
                             <a target="_blank" href="https://wa.me/5491167211569" className="formingtoTel">
                                 <i className="material-icons md-18">whatsapp</i>
-                                <span>Whatsapp</span>
+                                <span>Whatsapp a Desarrollo</span>
                             </a>
                         </li>
                         <li>

@@ -1,23 +1,101 @@
 import React, { useEffect } from "react";
-import PendingDoc from "./PendingDoc";
+import PendingDoc from "./PendingDoc.js";
 import {useState, useRef} from "react";
-
+import ResultAccordion from "./ResultAccordion.js";
 
 
 function PendingSection () {
 
+    // let documentosPendings = [
+    //     {
+    //         "idDocumento": "3232384",
+    //         "idSucursal": 12,
+    //         "nombreSucursal": "Belgrano",
+    //         "idSocio": "12-623065",
+    //         "numeroDoc": "40783520",
+    //         "importeTotal": 9890,
+    //         "invoicerReference": "a1e36a225303422fbef30d81b6818935-MTItMzIzMjM4NA==",
+    //         "dateTime": "2022-10-01 16:01:50",
+    //         "status":"Aprobado"
+    //     },
+    //     {
+    //         "idDocumento": "3232384",
+    //         "idSucursal": 12,
+    //         "nombreSucursal": "Belgrano",
+    //         "idSocio": "12-623065",
+    //         "numeroDoc": "40783520",
+    //         "importeTotal": 9890,
+    //         "invoicerReference": "a1e36a225303422fbef30d81b6818935-MTItMzIzMjM4NA==",
+    //         "dateTime": "2022-10-01 16:01:50",
+    //         "status":"Aprobado"
+    //     },
+    //     {
+    //         "idDocumento": "3232384",
+    //         "idSucursal": 12,
+    //         "nombreSucursal": "Belgrano",
+    //         "idSocio": "12-623065",
+    //         "numeroDoc": "40783520",
+    //         "importeTotal": 9890,
+    //         "invoicerReference": "a1e36a225303422fbef30d81b6818935-MTItMzIzMjM4NA==",
+    //         "dateTime": "2022-10-01 16:01:50",
+    //         "status":"Aprobado"
+    //     }
+    // ]
+
+    // let documentosResult = [
+    //     {
+    //         "idDocumento": "3232384",
+    //         "idSucursal": 12,
+    //         "nombreSucursal": "Belgrano",
+    //         "idSocio": "12-623065",
+    //         "numeroDoc": "40783520",
+    //         "importeTotal": 9890,
+    //         "invoicerReference": "a1e36a225303422fbef30d81b6818935-MTItMzIzMjM4NA==",
+    //         "dateTime": "2022-10-01 16:01:50",
+    //         "status":"Aprobado"
+    //     },
+    //     {
+    //         "idDocumento": "3232384",
+    //         "idSucursal": 12,
+    //         "nombreSucursal": "Belgrano",
+    //         "idSocio": "12-623065",
+    //         "numeroDoc": "40783520",
+    //         "importeTotal": 9890,
+    //         "invoicerReference": "a1e36a225303422fbef30d81b6818935-MTItMzIzMjM4NA==",
+    //         "dateTime": "2022-10-01 16:01:50",
+    //         "status":"Aprobado"
+    //     },
+    //     {
+    //         "idDocumento": "3232384",
+    //         "idSucursal": 12,
+    //         "nombreSucursal": "Belgrano",
+    //         "idSocio": "12-623065",
+    //         "numeroDoc": "40783520",
+    //         "importeTotal": 9890,
+    //         "invoicerReference": "a1e36a225303422fbef30d81b6818935-MTItMzIzMjM4NA==",
+    //         "dateTime": "2022-10-01 16:01:50",
+    //         "status":"Aprobado"
+    //     }
+    // ]
+
     let sectionbgc = useRef(null)
     let loading =  useRef(null)
-    let pResend =  useRef(null)
     let resendAll = useRef(null)
+    let sectionResult =  useRef(null)
+    let loadingResend =  useRef(null)
+
+    
 
 
     let [docPendings, setDocPendings] = useState([]);
     let [responseResend, setResponseResend] = useState([]);
     let [status, setStatus] = useState(['Cargando...'])
+    let [statusResend, setStatusResend] = useState(['Cargando...'])
+
 
 
         useEffect(() => {
+            // setDocPendings(documentosPendings)
             fetch('http://localhost:4600/api/getProcessBySub')
             // fetch('http://localhost:4600/api/getProcessFromProd01')
             .then(response => response.json())
@@ -38,8 +116,11 @@ function PendingSection () {
 
 
 
-        const resendToMega = async () => {
-
+        const resendToMega = async () => {    
+            
+              // setDocPendings(documentosResult)
+            
+            loadingResend.current.style.display="flex"
             var myHeaders = new Headers();
             myHeaders.append("Content-Type", "application/json");
             
@@ -58,6 +139,7 @@ function PendingSection () {
               .then(result => {
                 setResponseResend(result);
                 console.log(responseResend);
+                loadingResend.current.style.display="none"
               })
               .catch(error => console.log('error', error));
         } 
@@ -68,14 +150,16 @@ function PendingSection () {
 
         
 
-        if(docPendings.length > 1){
-            sectionbgc.current.style.display="block"
-            resendAll.current.style.display="block"
+        if(docPendings.length > 1 && responseResend.length < 1){
+            sectionbgc.current.style.display="flex"
+            resendAll.current.style.display="flex"
             loading.current.style.display="none"            
         }
 
         if (responseResend.length > 1){
-            pResend.current.style.display="block"
+            sectionResult.current.style.display="flex"
+            sectionbgc.current.style.display="none"
+            resendAll.current.style.display="none"
         }    
 
            
@@ -83,7 +167,7 @@ function PendingSection () {
 
     return(
         <>        
-        <h1 ref={loading} style={{display:"block"}}>{status}</h1>
+        <h1 ref={loading} style={{display:"flex"}}>{status}</h1>
         <section ref={sectionbgc} style={{display:"none"}} className="section section-bgc">
             <div className="container">
                 <div className="row items">
@@ -114,11 +198,18 @@ function PendingSection () {
                         <span> Reenviar Todos</span>                      
                         <svg className="btn-icon-right" viewBox="0 0 13 9" width="6.5" height="4.5"><use xlinkHref="/img/sprite.svg#arrow-right"></use></svg>
                     </span>
-                    </div>
-                    <p ref={pResend} style={{display:"none"}}>{responseResend}</p>
-                </div>                    
-            </div>           
+                    </div>                    
+            </div>                    
+        </div>           
         </section>	
+
+        <section ref={sectionResult} style={{display:"none"}}>
+        <h1 ref={loadingResend} style={{display:"none"}}>{statusResend}</h1>       
+
+        { docPendings.map(doc => <PendingDoc nombreSucursal={doc.nombreSucursal}  idSucursal={doc.idSucursal} idDocumento={doc.idDocumento} idSocio={doc.idSocio} numeroDoc={doc.numeroDoc} importeTotal={doc.importeTotal} dateTime={doc.dateTime} status={doc.status} /> )}
+
+        </section>
+
     </>
 
 
