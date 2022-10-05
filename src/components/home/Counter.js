@@ -18,7 +18,10 @@ function Counter () {
                 setStatus('Sin documentos para reenviar')
             }
         } )
-        .catch(error => console.log(error))
+        .catch(error=> {
+            console.log(error);
+            setStatus(`No me pude conectar al servidor. (${error} (${error}))`);
+        } )
 
         
     }, []);

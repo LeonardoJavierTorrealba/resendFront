@@ -106,7 +106,10 @@ function PendingSection () {
                     setStatus('Sin documentos')
                 }
             } )
-            .catch(error => console.log(error))
+            .catch(error=> {
+                console.log(error);
+                setStatus(`No me pude conectar al servidor. (${error})`);
+            } )
 
         }, [])
 
@@ -120,7 +123,10 @@ function PendingSection () {
             
               // setDocPendings(documentosResult)
             
+            sectionbgc.current.style.display="none"
+            resendAll.current.style.display = "none"
             loadingResend.current.style.display="flex"
+
             var myHeaders = new Headers();
             myHeaders.append("Content-Type", "application/json");
             
@@ -135,13 +141,16 @@ function PendingSection () {
             };
             
             fetch("http://localhost:4600/api/resendToMega", requestOptions)
-              .then(response => response.text())
+              .then(response => response.json())
               .then(result => {
                 setResponseResend(result);
                 console.log(responseResend);
                 loadingResend.current.style.display="none"
               })
-              .catch(error => console.log('error', error));
+              .catch(error=> {
+                console.log(error);
+                setStatusResend(`No me pude conectar al servidor. (${error} (${error.status}))`);
+            } )
         } 
 
 
@@ -203,10 +212,13 @@ function PendingSection () {
         </div>           
         </section>	
 
-        <section ref={sectionResult} style={{display:"none"}}>
-        <h1 ref={loadingResend} style={{display:"none"}}>{statusResend}</h1>       
+        <div ref={loadingResend} style={{display:"none"}}>
+        <h1>{statusResend}</h1>  
+        </div>
 
-        { docPendings.map(doc => <PendingDoc nombreSucursal={doc.nombreSucursal}  idSucursal={doc.idSucursal} idDocumento={doc.idDocumento} idSocio={doc.idSocio} numeroDoc={doc.numeroDoc} importeTotal={doc.importeTotal} dateTime={doc.dateTime} status={doc.status} /> )}
+        <section ref={sectionResult} style={{display:"none"}}>            
+
+        { responseResend.map(doc => <PendingDoc nombreSucursal={doc.nombreSucursal}  idSucursal={doc.idSucursal} idDocumento={doc.idDocumento} idSocio={doc.idSocio} numeroDoc={doc.numeroDoc} importeTotal={doc.importeTotal} dateTime={doc.dateTime} status={doc.status}/>)}
 
         </section>
 

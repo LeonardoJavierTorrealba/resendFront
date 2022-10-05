@@ -1,16 +1,25 @@
 import React from "react";
 import {Link} from "react-router-dom"
+import { useRef } from "react";
 
 function PendingDoc (props) {
 
     let resendTo = "resendDocument/" + props.invoicerReference
+
+    let statusdoc = useRef(null);
+
+    if (props.status === 'Aprobado'){
+        statusdoc.current.style.color = "green";
+    }
+
+
 
 
     return(
     <div className="col-lg-4 col-md-6 col-12 item">
     <div className="pricing-item item-style">
         <header className="pricing-item-header">
-            <div className="pricing-item-heading"> <i className="material-icons md-24">traffic</i> <strong>{props.status}</strong></div>
+            <div ref={statusdoc} style={{color: "yellow"}} className="pricing-item-heading"> <i className="material-icons md-24">traffic</i> <strong>{props.status}</strong></div>
             <div className="pricing-item-price">{props.nombreSucursal} ({props.idSucursal}) </div>
         </header>
         <div className="pricing-item-h">
