@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import PendingDoc from "./PendingDoc.js";
 import {useState, useRef} from "react";
-import ResultAccordion from "./ResultAccordion.js";
 
 
 function PendingSection () {
@@ -90,7 +89,8 @@ function PendingSection () {
     let [docPendings, setDocPendings] = useState([]);
     let [responseResend, setResponseResend] = useState([]);
     let [status, setStatus] = useState(['Cargando...'])
-    let [statusResend, setStatusResend] = useState(['Cargando...'])
+    let [statusResend, setStatusResend] = useState(['Cargando...']);
+
 
 
 
@@ -167,11 +167,11 @@ function PendingSection () {
 
         if (responseResend.length > 1){
             sectionResult.current.style.display="flex"
+            sectionResult.current.style.flexWrap = "wrap"
+            sectionResult.current.style.margin = "15%"
             sectionbgc.current.style.display="none"
             resendAll.current.style.display="none"
-        }    
-
-           
+        }          
 
 
     return(
@@ -187,10 +187,10 @@ function PendingSection () {
                         </div>
                     </div>                                                                                                 
                             
-                        { docPendings.map(doc => <PendingDoc nombreSucursal={doc.nombreSucursal}  idSucursal={doc.idSucursal} idDocumento={doc.idDocumento} idSocio={doc.idSocio} numeroDoc={doc.numeroDoc} importeTotal={doc.importeTotal} dateTime={doc.dateTime} status={"Pendiente"} /> )
-                        }                           
-                                
-                    </div>  
+                        { docPendings.map(doc => <PendingDoc nombreSucursal={doc.nombreSucursal}  idSucursal={doc.idSucursal} idDocumento={doc.idDocumento} idSocio={doc.idSocio} numeroDoc={doc.numeroDoc} importeTotal={doc.importeTotal} dateTime={doc.dateTime} status={"Pendiente"} invoicerReference={doc.invoicerReference}/>)
+                        }
+
+                    </div>
                 </div>            
         </section>
 
