@@ -102,7 +102,7 @@ function PendingSection () {
             .then(data => {
                 setDocPendings(data.documents); 
                 console.log(data.documents);
-                if (data.documents < 1){
+                if (data.documents.length < 1){
                     setStatus('Sin documentos')
                 }
             } )
@@ -113,9 +113,9 @@ function PendingSection () {
 
         }, [])
 
-        useEffect(() =>{
-            console.log("Se actualizó el componente");
-        }, [docPendings])
+        // useEffect(() =>{
+        //     console.log("Se actualizó el componente");
+        // }, [docPendings])
 
 
 
@@ -159,13 +159,13 @@ function PendingSection () {
 
         
 
-        if(docPendings.length > 1 && responseResend.length < 1){
+        if(docPendings.length > 0 && responseResend.length < 1){
             sectionbgc.current.style.display="flex"
             resendAll.current.style.display="flex"
             loading.current.style.display="none"            
         }
 
-        if (responseResend.length > 1){
+        if (responseResend.length > 0){
             sectionResult.current.style.display="flex"
             sectionResult.current.style.flexWrap = "wrap"
             sectionResult.current.style.margin = "15%"

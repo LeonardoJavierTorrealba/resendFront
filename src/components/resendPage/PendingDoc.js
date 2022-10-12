@@ -47,12 +47,7 @@ function PendingDoc (props) {
             console.log("salgo por otra cosa"); 
             console.log(stateDoc);                   
         }
-    }, [stateDoc])
-
-
-
-
-    
+    }, [stateDoc])   
     
 
     return(
