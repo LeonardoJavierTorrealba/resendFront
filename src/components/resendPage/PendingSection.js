@@ -218,7 +218,7 @@ function PendingSection () {
 
         <section ref={sectionResult} style={{display:"none"}}>            
 
-        { responseResend.map(doc => <PendingDoc nombreSucursal={doc.nombreSucursal}  idSucursal={doc.idSucursal} idDocumento={doc.idDocumento} idSocio={doc.idSocio} numeroDoc={doc.numeroDoc} importeTotal={doc.importeTotal} dateTime={doc.dateTime} status={doc.status}/>)}
+        { responseResend.map(doc => <PendingDoc nombreSucursal={doc.nombreSucursal}  idSucursal={doc.idSucursal} idDocumento={doc.idDocumento} idSocio={doc.idSocio} numeroDoc={doc.numeroDoc} importeTotal={doc.importeTotal} dateTime={doc.dateTime} status={doc.status} invoicerReference={doc.invoicerReference}/>)}
 
         </section>
 

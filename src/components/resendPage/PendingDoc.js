@@ -7,10 +7,11 @@ function PendingDoc (props) {
     let [stateColor, setStateColor] = useState([])
 
     
-
+    let btnEnviar = useRef(null);
 
     const resendDoc = async () => {
 
+        btnEnviar.current.style.display = "none"
         setStateDoc("Cargando...");        
         // fetch(`http://localhost:4600/api/resendDoc/${props.invoicerReference}`)
         // .then(response => response.text())
@@ -29,23 +30,21 @@ function PendingDoc (props) {
         } catch (error) {
             setStateDoc(`Error: ${responseResend.statusText} (${responseResend.status})`);
             window.open(`https://api.whatsapp.com/send/?phone=5491167211569&text="Hola, tuve un error ${responseResend.status} con el documento ${props.idSucursal}-${props.idDocumento}"&type=phone_number`)
+
         }
+        btnEnviar.current.style.display = "block"
     }
 
     useEffect(() =>{
         switch (stateDoc) {
-            case "Aprobado":  setStateColor('#0ced2a'); 
-                    console.log("salgo por aprobado");               
+            case "Aprobado":  setStateColor('#0ced2a');                               
                 break;
-            case "Cargando...":  setStateColor('white');
-            console.log("salgo por cargando");                     
+            case "Cargando...":  setStateColor('white');                       
                 break;
-            case 'Pendiente':  setStateColor('yellow');        
-            console.log("salgo por pendiente");                             
+            case 'Pendiente':  setStateColor('yellow');                                        
                 break;
             default: setStateColor('red');
-            console.log("salgo por otra cosa"); 
-            console.log(stateDoc);                   
+                           
         }
     }, [stateDoc])   
     
@@ -83,7 +82,7 @@ function PendingDoc (props) {
                 </ul>
             </div>
             <footer className="pricing-item-footer">
-                <span onClick={resendDoc} className="btn btn-large btn-with-icon btn-wide ripple">
+                <span ref={btnEnviar} onClick={resendDoc} className="btn btn-large btn-with-icon btn-wide ripple">
                     <span>Enviar</span>
                     <svg className="btn-icon-right" viewBox="0 0 13 9" width="13" height="9"><use xlinkHref="/img/sprite.svg#arrow-right"></use></svg>
                 </span>
